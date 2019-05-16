@@ -1,10 +1,17 @@
 package ru.nukkit.dblib;
 
+import com.j256.ormlite.db.DatabaseType;
+import com.j256.ormlite.db.DatabaseTypeUtils;
+import com.j256.ormlite.db.SqliteDatabaseType;
+import com.j256.ormlite.jdbc.DataSourceConnectionSource;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
+import com.j256.ormlite.jdbc.JdbcSingleConnectionSource;
 import com.j256.ormlite.logger.LocalLog;
 import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.support.DatabaseConnection;
 import org.sql2o.Sql2o;
+import ru.nukkit.dblib.connectionsource.LockedJdbcSingleConnectionSource;
 import ru.nukkit.dblib.core.M;
 import ru.nukkit.dblib.nukkit.ConfigNukkit;
 
@@ -43,7 +50,7 @@ public class DbLib {
      * Get DbLib's default ORMLite connection source.
      * All plugins used this method will share same database
      *
-     * @return - ConnectionSource (ORMlite)
+     * @return - {@link ConnectionSource}
      */
     public static ConnectionSource getConnectionSource() {
         return connectionSource;
@@ -54,18 +61,21 @@ public class DbLib {
      * Allows plugins to use custom connection source
      *
      * @param url      - database url (including database protocol). Examples:
-     *                 jdbc:sqlite:c:\server\plugins\MyPugin\data.db
+     *                 jdbc:sqlite:c:\server\plugins\MyPlugin\data.db
      *                 jdbc:mysql://localhost:3306/db
      * @param userName - Database user name, will be ignored for sqlite
      * @param password - Database user password, will be ignored for sqlite
-     * @return - ConnectionSource (ORMlite)
+     * @return - {@link ConnectionSource}
      */
     public static ConnectionSource getConnectionSource(String url, String userName, String password) {
+        DatabaseType type = DatabaseTypeUtils.createDatabaseType(url);
         try {
-            if (config.ormLiteKeepAlive() <= 0) {
+            if (type instanceof SqliteDatabaseType) {
+                return new LockedJdbcSingleConnectionSource(url, userName, password, type);
+            } else if (config.ormLiteKeepAlive() <= 0) {
                 return new JdbcConnectionSource(url, userName, password);
             } else {
-                JdbcPooledConnectionSource jdbcCon = new JdbcPooledConnectionSource(url, userName, password);
+                JdbcPooledConnectionSource jdbcCon = new JdbcPooledConnectionSource(url, userName, password, type);
                 jdbcCon.setCheckConnectionsEveryMillis(config.ormLiteKeepAlive());
                 return jdbcCon;
             }
@@ -80,7 +90,7 @@ public class DbLib {
      * Get custom SQLite ORMLite connection source.
      *
      * @param fileName - database file name
-     * @return - ConnectionSource (ORMlite)
+     * @return - {@link ConnectionSource}
      */
     public static ConnectionSource getConnectionSourceSQLite(String fileName) {
         File f = new File(folder + File.separator + fileName);
@@ -98,7 +108,7 @@ public class DbLib {
      * @param database - MySQL database
      * @param user     - MySQL user name
      * @param password - MySQL password
-     * @return - ConnectionSource (ORMlite)
+     * @return - {@link ConnectionSource}
      */
     public static ConnectionSource getConnectionSourceMySql(String host, int port, String database, String user, String password) {
         return getConnectionSource(getMySqlUrl(host, port, database), user, password);
@@ -122,7 +132,7 @@ public class DbLib {
      * @param url      - MySQL url, example: localhost:3306/db
      * @param user     - MySQL user name
      * @param password - MySQL password
-     * @return - Connection (SQL)
+     * @return - {@link Connection}
      */
     public static Connection getMySqlConnection(String url, String user, String password) {
         try {
