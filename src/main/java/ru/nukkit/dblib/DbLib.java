@@ -61,7 +61,7 @@ public class DbLib {
      * Allows plugins to use custom connection source
      *
      * @param url      - database url (including database protocol). Examples:
-     *                 jdbc:sqlite:c:\server\plugins\MyPlugin\data.db
+     *                 jdbc:sqlite:c:\DbLibPlugin.getPlugin().getServer()\plugins\MyPlugin\data.db
      *                 jdbc:mysql://localhost:3306/db
      * @param userName - Database user name, will be ignored for sqlite
      * @param password - Database user password, will be ignored for sqlite
@@ -103,8 +103,8 @@ public class DbLib {
     /**
      * Get custom MySQL ORMLite connection source.
      *
-     * @param host     - MySQL server host name
-     * @param port     - MySQL server port (use -1 to default value)
+     * @param host     - MySQL DbLibPlugin.getPlugin().getServer() host name
+     * @param port     - MySQL DbLibPlugin.getPlugin().getServer() port (use -1 to default value)
      * @param database - MySQL database
      * @param user     - MySQL user name
      * @param password - MySQL password
@@ -148,8 +148,8 @@ public class DbLib {
      * Get new MySQL Connection
      * This connections is not related to ORMLite, you must prepare and execute queries manually
      *
-     * @param host     - MySQL server host name
-     * @param port     - MySQL server port (use -1 to default value)
+     * @param host     - MySQL DbLibPlugin.getPlugin().getServer() host name
+     * @param port     - MySQL DbLibPlugin.getPlugin().getServer() port (use -1 to default value)
      * @param database - MySQL database
      * @param user     - MySQL user name
      * @param password - MySQL password

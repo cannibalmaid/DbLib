@@ -90,7 +90,7 @@ public enum M {
         final String message = getText(s);
         if (player == null) sender.sendMessage(message);
         else for (int i = 0; i < seconds; i++)
-            Server.getInstance().getScheduler().scheduleDelayedTask(new Runnable() {
+            DbLibPlugin.getPlugin().getServer().getInstance().getScheduler().scheduleDelayedTask(new Runnable() {
                 public void run() {
                     if (player.isOnline()) player.sendTip(message);
                 }
@@ -241,8 +241,7 @@ public enum M {
      * Initialize current class, load messages, etc.
      * Call this file in onEnable method after initializing plugin configuration
      */
-    public static void init(String pluginName, Messenger mess, String lang, boolean debug, boolean save) {
-        messenger = mess;
+    public static void init(String pluginName, String lang, boolean debug, boolean save) {
         language = lang.equalsIgnoreCase("default") ? "eng" : lang;
         debugMode = debug;
         saveLanguage = save;
@@ -283,7 +282,7 @@ public enum M {
     }
 
     /**
-     * Send message (formed using join method) to server log if debug mode is enabled
+     * Send message (formed using join method) to DbLibPlugin.getPlugin().getServer() log if debug mode is enabled
      *
      * @param s
      */

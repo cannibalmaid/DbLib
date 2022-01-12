@@ -13,7 +13,7 @@ Example project: [DbExample](https://github.com/fromgate/DbExample)
 * Provide access to popular database jdbc-drivers: SQLite and MySQL;
 * Include popular library ORMLite, that provides access to database without using SQL-queries;
 * Include great Sql2o engine. Make your queries easy :)
-* Organizes universal data storage for all plugins, that uses DbLib. Server owner must configure DbLib once and all plugins that use DbLib will work fine!
+* Organizes universal data storage for all plugins, that uses DbLib. DbLibPlugin.getPlugin().getServer() owner must configure DbLib once and all plugins that use DbLib will work fine!
 
 ## Configuration
 Configuration file named config.yml in Nukkit and config.json in Voxelwind.
@@ -30,7 +30,7 @@ DbLib:
 # ORMLite debug mode. Set true to see more messages :)
     debug: false
 # Keep-alive time interval (ms) for ORMLite connections
-# Increase this value if your database server timeout connections is too low
+# Increase this value if your database DbLibPlugin.getPlugin().getServer() timeout connections is too low
 # Set 0 to disable this mode (usually it's ok)
     keep-alive-interval: 0
 
@@ -41,7 +41,7 @@ DbLib:
 
 # # Full path to sqlite file
 SQLite:
-  file-name: C:\NukkitServer\nukkit.db
+  file-name: C:\NukkitDbLibPlugin.getPlugin().getServer()\nukkit.db
   
 # MySQL connections parameters
 MySQL:
@@ -52,7 +52,7 @@ MySQL:
   password: tikkun
 ```
 
-## How to use plugin (Server owners must read this)
+## How to use plugin (DbLibPlugin.getPlugin().getServer() owners must read this)
 If any plugin requires a DbLib you just need to download and install it. Usually it will be enough. But if you going to use to MySQL or another sqlite file you need to configure plugin (Read at Config section)
 
 ## Note for plugin developers
@@ -70,12 +70,12 @@ If you would not like to use ORMLite, you can use MySQL (or SQLite) drivers as u
 
 ## How to connect to universal DbLib storage
 
-DbLib suggests to use universal database (by default it is a file nukkit.db, located in sever folder or MySQL database defined by user) for all plugins. If DbLib installed on server you don't need to think about database drivers, urls, names and passwords.
+DbLib suggests to use universal database (by default it is a file nukkit.db, located in sever folder or MySQL database defined by user) for all plugins. If DbLib installed on DbLibPlugin.getPlugin().getServer() you don't need to think about database drivers, urls, names and passwords.
 
 Here is example of creating new table:
 ```
   public boolean connectToDbLib(){
-    if (this.getServer().getPluginManager().getPlugin("DbLib") == null){
+    if (this.getDbLibPlugin.getPlugin().getServer()().getPluginManager().getPlugin("DbLib") == null){
       this.getLogger().info(TextFormat.RED+"DbLib plugin not found");
       return false;
     }

@@ -1,11 +1,11 @@
 package ru.nukkit.dblib.nukkit;
 
-import cn.nukkit.plugin.PluginBase;
-import cn.nukkit.utils.TextFormat;
+import org.bukkit.ChatColor;
+import org.bukkit.plugin.java.JavaPlugin;
 import ru.nukkit.dblib.DbLib;
 import ru.nukkit.dblib.core.M;
 
-public class DbLibPlugin extends PluginBase {
+public class DbLibPlugin extends JavaPlugin {
 
 
     private static DbLibPlugin plugin;
@@ -23,10 +23,10 @@ public class DbLibPlugin extends PluginBase {
         plugin = this;
         this.saveDefaultConfig();
         this.cfg = new ConfigNukkit(this);
-        this.cfg.load();
-        M.init("DbLib", new MessengerNukkit(this), cfg.language, cfg.debugMode, cfg.saveLanguage);
+//        this.cfg.load();
+        M.init("DbLib", cfg.language, cfg.debugMode, cfg.saveLanguage);
         DbLib.init(cfg, this.getDataFolder());
-        getLogger().info(TextFormat.colorize("&eDbLib " + this.getDescription().getVersion() + " created by fromgate for nukkit.ru"));
+        getLogger().info(ChatColor.translateAlternateColorCodes('&', "&eDbLib " + this.getDescription().getVersion() + " created by fromgate for nukkit.ru"));
     }
 
 

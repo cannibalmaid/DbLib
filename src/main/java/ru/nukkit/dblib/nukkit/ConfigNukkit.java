@@ -1,49 +1,51 @@
 package ru.nukkit.dblib.nukkit;
 
-import cn.nukkit.plugin.Plugin;
-import cn.nukkit.utils.SimpleConfig;
+
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.IOException;
 
-public class ConfigNukkit extends SimpleConfig {
-    public ConfigNukkit(Plugin plugin) {
-        super(plugin);
+public class ConfigNukkit extends YamlConfiguration {
+    public ConfigNukkit(Plugin plugin){
     }
 
-    @Path("general.language")
+    //@Path("general.language")
     public String language = "default";
 
-    @Path("general.save-translation")
+    //@Path("general.save-translation")
     public boolean saveLanguage = false;
 
-    @Path("general.debug-mode")
+    //@Path("general.debug-mode")
     boolean debugMode = false;
 
-    @Path("DbLib.use-MySQL")
+    //@Path("DbLib.use-MySQL")
     public boolean dbUseMySQL = false;
 
-    @Path("SQLite.file-name")
+    //@Path("SQLite.file-name")
     public String dbFileName = DbLibPlugin.getPlugin().getDataFolder().getParentFile().getParent() + File.separator + "nukkit.db";
 
-    @Path("MySQL.host")
+    //@Path("MySQL.host")
     public String dbMySqlUrl = "localhost";
 
-    @Path("MySQL.port")
+    //@Path("MySQL.port")
     public int dbMySqlPort = 3306;
 
-    @Path("MySQL.database")
+    //@Path("MySQL.database")
     public String dbMySqlDatabase = "db";
 
-    @Path("MySQL.username")
+    //@Path("MySQL.username")
     public String dbMySqlUsername = "nukkit";
 
-    @Path("MySQL.password")
+    //@Path("MySQL.password")
     public String dbMySqlPassword = "tikkun";
 
-    @Path("DbLib.ORMLite.debug")
+    //@Path("DbLib.ORMLite.debug")
     public boolean debugLog = false;
 
-    @Path("DbLib.ORMLite.keep-alive-interval")
+    //@Path("DbLib.ORMLite.keep-alive-interval")
     public int ormLiteKeepAlive = 0;
 
     public String language() {
@@ -92,11 +94,6 @@ public class ConfigNukkit extends SimpleConfig {
 
     public int ormLiteKeepAlive() {
         return ormLiteKeepAlive;
-    }
-
-    @Override
-    public boolean save(){
-        return super.save();
     }
 
     public String getDbUrl() {
